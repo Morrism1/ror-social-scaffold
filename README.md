@@ -2,15 +2,18 @@
 
 > This repo includes intial code for social media app with basic styling. Its purpose is to be a starting point for Microverse students.
 
+## Entity Relation Digram
+
+![erd_ror](https://user-images.githubusercontent.com/46853433/97510902-6d9d2e00-198e-11eb-9ec8-1bdd423f855d.png)
+
 ## Built With
 
-- Ruby v2.7.0
-- Ruby on Rails v5.2.4
+- Ruby v2.7.1
+- Ruby on Rails v6.0.3
 
 ## Live Demo
 
 TBA
-
 
 ## Getting Started
 
