@@ -1,0 +1,7 @@
+<section class="users-section">
+  <ul class="users-list">
+  <% @friends.reverse.each do |request|%>
+    <%= decline(request) %>
+  <% end %> 
+  </ul>
+</section>
