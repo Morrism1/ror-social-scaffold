@@ -14,17 +14,25 @@ class User < ApplicationRecord
   has_many :friends, class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
   has_many :pending_invitation, -> { where status: false }, class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
 
-  def friends
-    sent_invitation = friendship_invitations.map { |friendship| friendship.friend if friendship.status}
-    sent_invitation += friends.map { |friendship| friendship.user if friendship.confirmed }
+  def all_friends
+    sent_invitation = friendship_invitations.map { |friendship| friendship.friend if friendship.status }
+    sent_invitation += friends.map { |friendship| friendship.user if friendship.status }
     sent_invitation.compact
   end
 
-  def friends?(user)
-    friends.includes(user)
+  def friends?(friend)
+    friendship_invitations.find_by(friend_id: friend.id).nil? && created_inverse?(friend)
   end
 
-  def sent_invitation(user)
-    FriendshipInvitation.create(friend_id: user.id)
+  def sent_invitation?(friend)
+    friend.friendship_invitations.find_by(friend_id: id).nil?
+  end
+
+  def friend_invited?(user)
+    !friendship_invitations.find_by(user_id: user.id, status: false).nil?
+  end
+
+  def friend_confirmed?(friend)
+    !friendship_invitations.find_by(friend_id: friend.id, status: false).nil?
   end
 end
