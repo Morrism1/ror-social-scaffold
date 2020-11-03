@@ -15,10 +15,9 @@ class User < ApplicationRecord
   has_many :pending_invitation, -> { where status: false }, class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
 
   def friends
-    sent_invitation = FriendshipInvitation.where(user_id, status: true).pluck(:friend_id)
-    got_invitation = FriendshipInvitation.where(friend_id, status: true).pluck.call(:user_id)
-    fr_array = sent_invitation + got_invitation
-    User.where(id: fr_array)
+    sent_invitation = friendship_invitations.map { |friendship| friendship.friend if friendship.status}
+    sent_invitation += friends.map { |friendship| friendship.user if friendship.confirmed }
+    sent_invitation.compact
   end
 
   def friends?(user)
