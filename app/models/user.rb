@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
 
   has_many :friendship_invitations, foreign_key: 'user_id'
-  has_many :friends, through: :friendship_invitations, foreign_key: 'friend_id'
+  has_many :friends, class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
   has_many :pending_invitation, -> { where status: false }, class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
 
   def friends
