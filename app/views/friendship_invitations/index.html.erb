@@ -1,7 +1,7 @@
 <section class="users-section">
   <ul class="users-list">
   <% @friends.reverse.each do |request|%>
-    <%= decline(request) %>
+    <%= render partial: 'decline', locals: { request: request } %>
   <% end %> 
   </ul>
 </section>

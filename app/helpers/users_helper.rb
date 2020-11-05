@@ -1,10 +1,10 @@
 module UsersHelper
   def user_info(user)
-    render partial: 'user_info', locals: { user: user } unless current_user?(user)
+    render partial: 'user', locals: { user: user } unless current_user?(user)
   end
 
   def friend_request(user)
-    return unless current_user.friend_confirmed?(user) && !current_user?(user)
+    return unless current_user.friends?(user) && !current_user?(user)
 
     render partial: 'friend_request', locals: { user: user }
   end

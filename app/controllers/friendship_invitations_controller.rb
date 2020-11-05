@@ -10,7 +10,7 @@ class FriendshipInvitationsController < ApplicationController
   end
 
   def index
-    @friendships = current_user.friendship_invitations
+    @friendships = current_user.friendship_invitations.build
     @friends = current_user.friends
   end
 

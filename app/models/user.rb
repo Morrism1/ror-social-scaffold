@@ -21,7 +21,7 @@ class User < ApplicationRecord
   end
 
   def friends?(friend)
-    friendship_invitations.find_by(friend_id: friend.id).nil? && created_inverse?(friend)
+    friendship_invitations.find_by(friend_id: friend.id).nil? && sent_invitation?(friend)
   end
 
   def sent_invitation?(friend)
