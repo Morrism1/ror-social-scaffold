@@ -28,15 +28,16 @@ module ApplicationHelper
     end
   end
 
-  def bootstrap_class_for flash_type
-    { success: "success", error: "danger", alert: "alert", notice: "notice" }.stringify_keys[flash_type.to_s] || flash_type.to_s
+  def bootstrap_class_for(flash_type)
+    { success: 'success', error: 'danger', alert: 'alert',
+      notice: 'notice' }.stringify_keys[flash_type.to_s] || flash_type.to_s
   end
 
-  def flash_messages(opts = {})
+  def flash_messages(_opts = {})
     flash.each do |msg_type, message|
-      concat(content_tag(:div, message, class: "#{bootstrap_class_for(msg_type)}", role: "alert") do 
-              concat message 
-            end)
+      concat(content_tag(:div, message, class: bootstrap_class_for(msg_type).to_s, role: 'alert') do
+               concat message
+             end)
     end
     nil
   end
