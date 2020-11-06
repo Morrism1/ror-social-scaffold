@@ -1,8 +1,4 @@
 module FriendshipInvitationsHelper
-  def friend_request?(user)
-    current_user.friendship_invitations.find_by(friend_id: user.id).nil?
-  end
-
   def pending_request?
     friendship_invitations.map { |friend| friend.friend unless friend.status }.compact
   end
