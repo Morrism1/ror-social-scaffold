@@ -20,6 +20,12 @@ class User < ApplicationRecord
     sent_invitation.compact
   end
 
+  def confirm_request(user)
+    friend = friends.find { |invite| invite.user == user }
+    friend.status = true
+    friend.save
+  end
+
   def friends?(friend)
     friendship_invitations.find_by(friend_id: friend.id).nil? && sent_invitation?(friend)
   end

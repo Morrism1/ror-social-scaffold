@@ -7,12 +7,6 @@ module FriendshipInvitationsHelper
     friends.map { |friend| friend.user unless friend.status }.compact
   end
 
-  def confirm_request(user)
-    friend = friends.find { |invite| invite.user == user }
-    friend.status = true
-    friend.save
-  end
-
   def friend?(user)
     friends.include?(user)
   end
