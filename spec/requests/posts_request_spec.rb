@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe "Posts", type: :feature do
-    let(:user) { User.create(name: 'Martin', email: 'martinpollo@gmail.com', password: 'kigali') }
-    let(:friend) { User.create(name: 'Ghosh', email: 'terrific@gmail.com', password: 'nairobi') }
+RSpec.describe 'Posts', type: :feature do
+  let(:user) { User.create(name: 'Martin', email: 'martinpollo@gmail.com', password: 'kigali') }
+  let(:friend) { User.create(name: 'Ghosh', email: 'terrific@gmail.com', password: 'nairobi') }
 
   scenario 'Create new post' do
     visit root_path
