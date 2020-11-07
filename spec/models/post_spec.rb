@@ -4,7 +4,7 @@ require 'capybara/rspec'
 RSpec.describe Post, type: :model do
   context 'Post associations tests' do
     it { should belong_to(:user) }
-    it { should have_many(:comments)}
-    it { should have_many(:likes)}
+    it { should have_many(:comments) }
+    it { should have_many(:likes) }
   end
 end
