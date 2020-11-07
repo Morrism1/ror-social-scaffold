@@ -36,7 +36,7 @@ RSpec.describe 'Friendship management', type: :feature do
     sleep(3)
     expect(page).to have_content("Name: #{friend.name}")
 
-    first('.profile-link').click # Click on the first 'See Profile' link
+    first('.profile-link').click
     sleep(3)
     expect(page).to have_content("Name: #{friend.name}")
     expect(page).to have_button('Add friend')
