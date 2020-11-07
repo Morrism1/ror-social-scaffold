@@ -4,10 +4,12 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  resources :users, only: [:index, :show]
-  resources :posts, only: [:index, :create] do
-    resources :comments, only: [:create]
-    resources :likes, only: [:create, :destroy]
+  resources :users, only: %i[index show] do
+    resources :friendship_invitations, as: 'friendships', only: %i[create index update destroy]
+  end
+  resources :posts, only: %i[index create] do
+    resources :comments, only: %i[create]
+    resources :likes, only: %i[create destroy]
   end
   
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
