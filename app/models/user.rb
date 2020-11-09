@@ -11,8 +11,9 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
 
   has_many :friendship_invitations, foreign_key: 'user_id'
-  has_many :friends, class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
-  has_many :pending_invitation, -> { where status: false }, class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
+  has_many :pending_invitations, -> { merge(FriendshipInvitation.not_friends) }, class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
+  has_many :friends, -> { merge(FriendshipInvitation.friends) }, class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
+  
 
   def all_friends
     sent_invitation = friendship_invitations.map { |friendship| friendship.friend if friendship.status }

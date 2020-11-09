@@ -13,7 +13,7 @@ class SelfInvitationValidator < ActiveModel::Validator
 end
 
 class FriendshipInvitation < ApplicationRecord
-  validates_with DuplicateValidator
+  validates_with DuplicateValidator, on: :create
   validates_with SelfInvitationValidator
 
   validates_presence_of :user_id, :friend_id, message: "can't be blank"
@@ -21,4 +21,7 @@ class FriendshipInvitation < ApplicationRecord
 
   belongs_to :user
   belongs_to :friend, class_name: 'User'
+
+  scope :friends, -> { where('status =?', true) }
+  scope :not_friends, -> { where('status =?', false) }
 end
