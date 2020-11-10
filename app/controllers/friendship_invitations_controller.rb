@@ -10,8 +10,8 @@ class FriendshipInvitationsController < ApplicationController
   end
 
   def index
-    @friendships = current_user.friendship_invitations.build
-    @friends = current_user.friends
+    @friendships = current_user.friendship_invitations
+    @friends = current_user.pending_invitations
   end
 
   def update
@@ -21,7 +21,7 @@ class FriendshipInvitationsController < ApplicationController
     if @friendship.save
       redirect_to user_path(current_user.id), notice: 'Friend request was successfully confirmed.'
     else
-      redirect_to user_path(current_user.id), alert: @friendship.error.full_messages.join('. ').to_s
+      redirect_to user_path(current_user.id), alert: @friendship.errors.full_messages.join('. ').to_s
     end
   end
 

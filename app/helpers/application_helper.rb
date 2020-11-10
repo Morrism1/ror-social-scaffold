@@ -41,4 +41,13 @@ module ApplicationHelper
     end
     nil
   end
+
+  def friends_check(user)
+    unless FriendshipInvitation.where(user_id: current_user.id, friend_id: user.id, status: true).exists? ||
+           FriendshipInvitation.where(user_id: user.id, friend_id: current_user.id, status: true).exists?
+      return false
+    end
+
+    true
+  end
 end

@@ -11,12 +11,19 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
 
   has_many :friendship_invitations, foreign_key: 'user_id'
-  has_many :friends, class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
-  has_many :pending_invitation, -> { where status: false }, class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
+  has_many :inverse_friendships, -> { where status: false }, class_name: 'FriendshipInvitation',
+                                                             foreign_key: 'friend_id'
+  has_many :pending_invitations, -> { merge(FriendshipInvitation.not_friends) },
+           class_name: 'FriendshipInvitation', foreign_key: 'friend_id'
+  has_many :friends, -> { merge(FriendshipInvitation.friends) }, class_name: 'FriendshipInvitation',
+                                                                 foreign_key: 'user_id'
+  has_many :confirmed_friendships, -> { where status: true }, class_name: 'FriendshipInvitation',
+                                                              foreign_key: 'user_id'
+  has_many :myfriends, through: :confirmed_friendships, source: :user
 
   def all_friends
     sent_invitation = friendship_invitations.map { |friendship| friendship.friend if friendship.status }
-    sent_invitation += friends.map { |friendship| friendship.user if friendship.status }
+    sent_invitation += inverse_friendships.map { |friendship| friendship.user if friendship.status }
     sent_invitation.compact
   end
 
