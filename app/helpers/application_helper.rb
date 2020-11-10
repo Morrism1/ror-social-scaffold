@@ -15,4 +15,39 @@ module ApplicationHelper
       link_to('Like!', post_likes_path(post_id: post.id), method: :post)
     end
   end
+
+  def left_menu_link
+    class_name = 'menu-item'
+    if current_user
+      (content_tag(:div, class: class_name) do
+        menu_link_to('Friend Requests', user_friendships_path(current_user.id))
+      end) +
+        link_to('Sign out', destroy_user_session_path, method: :delete)
+    else
+      link_to('Sign in', user_session_path)
+    end
+  end
+
+  def bootstrap_class_for(flash_type)
+    { success: 'success', error: 'danger', alert: 'alert',
+      notice: 'notice' }.stringify_keys[flash_type.to_s] || flash_type.to_s
+  end
+
+  def flash_messages(_opts = {})
+    flash.each do |msg_type, message|
+      concat(content_tag(:div, message, class: bootstrap_class_for(msg_type).to_s, role: 'alert') do
+               concat message
+             end)
+    end
+    nil
+  end
+
+  def friends_check(user)
+    unless FriendshipInvitation.where(user_id: current_user.id, friend_id: user.id, status: true).exists? ||
+           FriendshipInvitation.where(user_id: user.id, friend_id: current_user.id, status: true).exists?
+      return false
+    end
+
+    true
+  end
 end
